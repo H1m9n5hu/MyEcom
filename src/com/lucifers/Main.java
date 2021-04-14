@@ -1,44 +1,44 @@
 package com.lucifers;
 
+import com.lucifers.models.Cart;
 import com.lucifers.models.Product;
 import com.lucifers.models.Variant;
-import com.lucifers.models.VariantBasedProduct;
-import com.lucifers.models.WeightBasedProduct;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
 
 public class Main {
     public static void main(String[] args) {
 
         //Create Products
-        Product papaya = new WeightBasedProduct("Papaya","image",50f,2.5f);
-        Product bakingSoda = new VariantBasedProduct("Baking Soda","image",new ArrayList<>(
-                Arrays.asList(
-                        new Variant("400g",230),
-                        new Variant("2.5g",199)
-                )
-        ));
+        Product papaya = new Product("Papaya","image",50,2.5f),
+                orange = new Product("Orange", "image", 30, 5f),
+                kiwi =new Product("Kiwi","image",new ArrayList<>(
+                        Arrays.asList(
+                            new Variant("1kg",100),
+                            new Variant("500g",60)
+                        )
+                )),
+                bakingSoda = new Product("Baking Soda", "image",new ArrayList<>(
+                        Collections.singletonList(new Variant("250g", 75))
+                ));
 
-        //Print these products one by one...
-        System.out.println(papaya);
-        System.out.println(bakingSoda);
+        Cart cart = new Cart();
+        cart.add(papaya,5f);
+        cart.add(orange,2.5f);
+        cart.add(kiwi,kiwi.variants.get(1));
+        cart.add(kiwi,kiwi.variants.get(0));
+        cart.add(kiwi,kiwi.variants.get(1));
+        cart.add(bakingSoda,bakingSoda.variants.get(0));
+        cart.add(bakingSoda,bakingSoda.variants.get(0));
+        System.out.println(cart);
 
-        //Add these products in List
-        List<Product> products = new ArrayList<>(
-                Arrays.asList(
-                        new WeightBasedProduct("Apple","image",80f,2.5f),
-                        new VariantBasedProduct("Kiwi","image",new ArrayList<>(
-                                Arrays.asList(new Variant("3kg",90),
-                                        new Variant("1kg",50)
-                                )
-                        ))
-                )
-        );
-
-        //Print all products in a single list...
-        System.out.println(products);
+        cart.remove(papaya);
+        cart.decrement(kiwi,kiwi.variants.get(1));
+        cart.decrement(bakingSoda,bakingSoda.variants.get(0));
+        cart.decrement(bakingSoda,bakingSoda.variants.get(0));
+        System.out.println(cart);
 
     }
 }
